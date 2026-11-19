@@ -1,0 +1,6 @@
+{
+  "name": "Deepak Social",
+  "description": "A Facebook-inspired full-stack social media Android app with real-time feed, Reels, 1-to-1 chat, creator monetization dashboard, referrals, and admin panel.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

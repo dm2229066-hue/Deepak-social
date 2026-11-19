@@ -1,0 +1,379 @@
+{
+  "entities": {
+    "Admin": {
+      "title": "Admin",
+      "description": "Authorized platform administrator record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "addedBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "addedBy", "createdAt"]
+    },
+    "AppConfig": {
+      "title": "AppConfig",
+      "description": "Platform monetization and referral reward thresholds configured by admins.",
+      "type": "object",
+      "properties": {
+        "referralRewardInr": { "type": "number" },
+        "minWithdrawalInr": { "type": "number" },
+        "minFriendsForMonetization": { "type": "integer" },
+        "minPostsForMonetization": { "type": "integer" },
+        "minViewsForMonetization": { "type": "integer" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["referralRewardInr", "minWithdrawalInr", "minFriendsForMonetization", "minPostsForMonetization", "minViewsForMonetization", "updatedAt"]
+    },
+    "PublicProfile": {
+      "title": "PublicProfile",
+      "description": "Non-PII public creator and social profile.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "username": { "type": "string" },
+        "displayName": { "type": "string" },
+        "bio": { "type": "string" },
+        "avatarData": { "type": "string" },
+        "coverData": { "type": "string" },
+        "followersCount": { "type": "integer" },
+        "followingCount": { "type": "integer" },
+        "friendsCount": { "type": "integer" },
+        "postsCount": { "type": "integer" },
+        "totalViews": { "type": "integer" },
+        "monetizationStatus": { "type": "string", "enum": ["none", "pending", "approved", "rejected"] },
+        "referralCode": { "type": "string" },
+        "online": { "type": "boolean" },
+        "lastSeenAt": { "type": "string", "format": "date-time" },
+        "accountStatus": { "type": "string", "enum": ["active", "suspended", "banned"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "username", "displayName", "bio", "followersCount", "followingCount", "friendsCount", "postsCount", "totalViews", "monetizationStatus", "referralCode", "online", "lastSeenAt", "accountStatus", "createdAt", "updatedAt"]
+    },
+    "PrivateUser": {
+      "title": "PrivateUser",
+      "description": "Private PII, privacy settings, blocked users, and payout account info.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "privacyMode": { "type": "string", "enum": ["public", "friends"] },
+        "blockedUserIds": { "type": "array" },
+        "referredByCode": { "type": "string" },
+        "upiId": { "type": "string" },
+        "bankAccountNumber": { "type": "string" },
+        "bankIfsc": { "type": "string" },
+        "bankHolderName": { "type": "string" },
+        "termsAccepted": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "privacyMode", "blockedUserIds", "termsAccepted", "createdAt", "updatedAt"]
+    },
+    "Post": {
+      "title": "Post",
+      "description": "Social feed post or vertical short Reel.",
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorUsername": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "text": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["none", "image", "video"] },
+        "mediaData": { "type": "string" },
+        "thumbnailData": { "type": "string" },
+        "hashtags": { "type": "array" },
+        "visibility": { "type": "string", "enum": ["public", "friends"] },
+        "likesCount": { "type": "integer" },
+        "commentsCount": { "type": "integer" },
+        "sharesCount": { "type": "integer" },
+        "viewsCount": { "type": "integer" },
+        "reelPost": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["authorId", "authorName", "authorUsername", "text", "mediaType", "hashtags", "visibility", "likesCount", "commentsCount", "sharesCount", "viewsCount", "reelPost", "createdAt", "updatedAt"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "Comment or reply on a post or reel.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "authorAvatar": { "type": "string" },
+        "text": { "type": "string" },
+        "parentCommentId": { "type": "string" },
+        "postVisibility": { "type": "string", "enum": ["public", "friends"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "authorId", "authorName", "text", "postVisibility", "createdAt"]
+    },
+    "UserPostAction": {
+      "title": "UserPostAction",
+      "description": "User reaction or bookmark record for a post.",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "reactionType": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "createdAt"]
+    },
+    "FriendRequest": {
+      "title": "FriendRequest",
+      "description": "Mutual friend connection request.",
+      "type": "object",
+      "properties": {
+        "fromUid": { "type": "string" },
+        "toUid": { "type": "string" },
+        "fromName": { "type": "string" },
+        "fromAvatar": { "type": "string" },
+        "toName": { "type": "string" },
+        "toAvatar": { "type": "string" },
+        "participantUids": { "type": "array" },
+        "status": { "type": "string", "enum": ["pending", "accepted", "declined"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fromUid", "toUid", "fromName", "toName", "participantUids", "status", "createdAt", "updatedAt"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "One-way follow relationship.",
+      "type": "object",
+      "properties": {
+        "followerId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["followerId", "targetId", "createdAt"]
+    },
+    "ChatThread": {
+      "title": "ChatThread",
+      "description": "1-to-1 messaging thread metadata.",
+      "type": "object",
+      "properties": {
+        "participantUids": { "type": "array" },
+        "user1Uid": { "type": "string" },
+        "user1Name": { "type": "string" },
+        "user1Avatar": { "type": "string" },
+        "user2Uid": { "type": "string" },
+        "user2Name": { "type": "string" },
+        "user2Avatar": { "type": "string" },
+        "lastMessage": { "type": "string" },
+        "lastSenderId": { "type": "string" },
+        "lastMessageAt": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["participantUids", "user1Uid", "user1Name", "user2Uid", "user2Name", "lastMessage", "lastSenderId", "lastMessageAt", "createdAt", "updatedAt"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "Real-time message in a 1-to-1 chat.",
+      "type": "object",
+      "properties": {
+        "chatId": { "type": "string" },
+        "senderId": { "type": "string" },
+        "participantUids": { "type": "array" },
+        "text": { "type": "string" },
+        "mediaType": { "type": "string", "enum": ["none", "image", "video"] },
+        "mediaData": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["chatId", "senderId", "participantUids", "text", "mediaType", "createdAt"]
+    },
+    "UserNotification": {
+      "title": "UserNotification",
+      "description": "User activity or system notification.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "actorId": { "type": "string" },
+        "actorName": { "type": "string" },
+        "type": { "type": "string" },
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "targetId": { "type": "string" },
+        "readStatus": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "actorId", "actorName", "type", "title", "body", "readStatus", "createdAt"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "Server/Admin-verified creator earnings wallet.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "totalEarnings": { "type": "number" },
+        "dailyEarnings": { "type": "number" },
+        "weeklyEarnings": { "type": "number" },
+        "monthlyEarnings": { "type": "number" },
+        "lifetimeEarnings": { "type": "number" },
+        "adRevenue": { "type": "number" },
+        "videoEarnings": { "type": "number" },
+        "postEarnings": { "type": "number" },
+        "referralEarnings": { "type": "number" },
+        "availableBalance": { "type": "number" },
+        "pendingBalance": { "type": "number" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "totalEarnings", "dailyEarnings", "weeklyEarnings", "monthlyEarnings", "lifetimeEarnings", "adRevenue", "videoEarnings", "postEarnings", "referralEarnings", "availableBalance", "pendingBalance", "updatedAt"]
+    },
+    "WalletTransaction": {
+      "title": "WalletTransaction",
+      "description": "Immutable creator ledger transaction.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string" },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["completed", "pending", "rejected"] },
+        "description": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "type", "amount", "status", "description", "createdAt"]
+    },
+    "MonetizationApplication": {
+      "title": "MonetizationApplication",
+      "description": "Creator monetization eligibility application.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "followersCount": { "type": "integer" },
+        "postsCount": { "type": "integer" },
+        "totalViews": { "type": "integer" },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "reviewNote": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "displayName", "followersCount", "postsCount", "totalViews", "status", "createdAt", "updatedAt"]
+    },
+    "WithdrawalRequest": {
+      "title": "WithdrawalRequest",
+      "description": "Creator payout withdrawal request.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "amount": { "type": "number" },
+        "method": { "type": "string", "enum": ["upi", "bank"] },
+        "destination": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "approved", "paid", "rejected"] },
+        "adminNote": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userName", "amount", "method", "destination", "status", "createdAt", "updatedAt"]
+    },
+    "MonetizationEvent": {
+      "title": "MonetizationEvent",
+      "description": "Verified impression or eligible view event.",
+      "type": "object",
+      "properties": {
+        "creatorId": { "type": "string" },
+        "viewerId": { "type": "string" },
+        "contentId": { "type": "string" },
+        "eventType": { "type": "string", "enum": ["ad_impression", "video_view", "post_view"] },
+        "verified": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["creatorId", "viewerId", "contentId", "eventType", "verified", "createdAt"]
+    },
+    "Referral": {
+      "title": "Referral",
+      "description": "Tracked user referral with anti-fraud status.",
+      "type": "object",
+      "properties": {
+        "referrerUid": { "type": "string" },
+        "referredUid": { "type": "string" },
+        "referredName": { "type": "string" },
+        "referralCode": { "type": "string" },
+        "rewardAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["pending", "credited", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["referrerUid", "referredUid", "referredName", "referralCode", "rewardAmount", "status", "createdAt", "updatedAt"]
+    },
+    "SponsoredAd": {
+      "title": "SponsoredAd",
+      "description": "Admin-managed sponsored advertisement.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "sponsorName": { "type": "string" },
+        "ctaText": { "type": "string" },
+        "ctaUrl": { "type": "string" },
+        "active": { "type": "boolean" },
+        "impressionsCount": { "type": "integer" },
+        "clicksCount": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "description", "sponsorName", "ctaText", "ctaUrl", "active", "impressionsCount", "clicksCount", "createdAt", "updatedAt"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Platform-wide admin announcement.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "active": { "type": "boolean" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "message", "active", "createdBy", "createdAt"]
+    },
+    "Report": {
+      "title": "Report",
+      "description": "User moderation report for content or accounts.",
+      "type": "object",
+      "properties": {
+        "reporterId": { "type": "string" },
+        "targetType": { "type": "string", "enum": ["post", "reel", "user"] },
+        "targetId": { "type": "string" },
+        "reason": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "resolved", "dismissed"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["reporterId", "targetType", "targetId", "reason", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/admins/{adminUid}": { "schema": { "$ref": "#/entities/Admin" }, "description": "Admin role registry" },
+    "/app_config/{configId}": { "schema": { "$ref": "#/entities/AppConfig" }, "description": "Platform configuration" },
+    "/public_profiles/{userId}": { "schema": { "$ref": "#/entities/PublicProfile" }, "description": "Public social profiles" },
+    "/users/{userId}": { "schema": { "$ref": "#/entities/PrivateUser" }, "description": "Private PII and payout details" },
+    "/users/{userId}/liked_posts/{postId}": { "schema": { "$ref": "#/entities/UserPostAction" }, "description": "User reactions on posts" },
+    "/users/{userId}/saved_posts/{postId}": { "schema": { "$ref": "#/entities/UserPostAction" }, "description": "User saved bookmarks" },
+    "/users/{userId}/notifications/{notificationId}": { "schema": { "$ref": "#/entities/UserNotification" }, "description": "User notifications" },
+    "/users/{userId}/transactions/{txId}": { "schema": { "$ref": "#/entities/WalletTransaction" }, "description": "Creator ledger transactions" },
+    "/posts/{postId}": { "schema": { "$ref": "#/entities/Post" }, "description": "Feed posts and Reels" },
+    "/posts/{postId}/comments/{commentId}": { "schema": { "$ref": "#/entities/Comment" }, "description": "Post comments and replies" },
+    "/friend_requests/{requestId}": { "schema": { "$ref": "#/entities/FriendRequest" }, "description": "Friend requests" },
+    "/follows/{followId}": { "schema": { "$ref": "#/entities/Follow" }, "description": "Creator follow graph" },
+    "/chats/{chatId}": { "schema": { "$ref": "#/entities/ChatThread" }, "description": "1-to-1 chat threads" },
+    "/chats/{chatId}/messages/{messageId}": { "schema": { "$ref": "#/entities/ChatMessage" }, "description": "1-to-1 chat messages" },
+    "/wallets/{userId}": { "schema": { "$ref": "#/entities/Wallet" }, "description": "Creator earnings balances" },
+    "/monetization_applications/{userId}": { "schema": { "$ref": "#/entities/MonetizationApplication" }, "description": "Creator monetization applications" },
+    "/withdrawal_requests/{requestId}": { "schema": { "$ref": "#/entities/WithdrawalRequest" }, "description": "Creator withdrawal requests" },
+    "/monetization_events/{eventId}": { "schema": { "$ref": "#/entities/MonetizationEvent" }, "description": "Ad impression and view events" },
+    "/referrals/{referralId}": { "schema": { "$ref": "#/entities/Referral" }, "description": "Referral tracking records" },
+    "/ads/{adId}": { "schema": { "$ref": "#/entities/SponsoredAd" }, "description": "Sponsored advertisements" },
+    "/announcements/{announcementId}": { "schema": { "$ref": "#/entities/Announcement" }, "description": "Admin announcements" },
+    "/reports/{reportId}": { "schema": { "$ref": "#/entities/Report" }, "description": "Moderation reports" }
+  }
+}
